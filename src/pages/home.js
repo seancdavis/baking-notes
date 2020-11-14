@@ -2,6 +2,9 @@ import MessageListItem from "../components/message-list-item"
 import React, { useState } from "react"
 import { getMessages } from "../data/messages"
 import {
+  IonButtons,
+  IonButton,
+  IonIcon,
   IonContent,
   IonHeader,
   IonList,
@@ -12,6 +15,7 @@ import {
   IonToolbar,
   useIonViewWillEnter
 } from "@ionic/react"
+import { addOutline } from "ionicons/icons"
 import "./home.css"
 
 const Home = () => {
@@ -42,7 +46,13 @@ const Home = () => {
 
         <IonHeader collapse="condense">
           <IonToolbar>
-            <IonTitle size="large">Inbox</IonTitle>
+            <IonButtons slot="primary">
+              <IonButton routerLink="/projects/new">
+                <IonIcon icon={addOutline} />
+              </IonButton>
+            </IonButtons>
+
+            <IonTitle>Inbox</IonTitle>
           </IonToolbar>
         </IonHeader>
 
