@@ -13,6 +13,11 @@ import {
   IonRefresherContent,
   IonTitle,
   IonToolbar,
+  IonItem,
+  IonItemSliding,
+  IonItemOptions,
+  IonItemOption,
+  IonLabel,
   useIonViewWillEnter
 } from "@ionic/react"
 import { addOutline } from "ionicons/icons"
@@ -57,6 +62,18 @@ const Home = () => {
         </IonHeader>
 
         <IonList>
+          <IonItemSliding>
+            <IonItem routerLink="/projects/new">
+              <IonLabel>New Message</IonLabel>
+            </IonItem>
+
+            <IonItemOptions side="end">
+              <IonItemOption color="danger" onClick={e => console.log("DELETE ME")}>
+                Delete
+              </IonItemOption>
+            </IonItemOptions>
+          </IonItemSliding>
+
           {messages.map(m => (
             <MessageListItem key={m.id} message={m} />
           ))}
