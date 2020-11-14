@@ -1,5 +1,4 @@
 import React, { useState } from "react"
-// import { getMessage } from "../data/messages"
 import {
   IonBackButton,
   IonButtons,
@@ -12,15 +11,34 @@ import {
   IonLabel,
   IonItem
 } from "@ionic/react"
-// import { personCircle } from "ionicons/icons"
-// import "./view-messages.css"
+
+import { useHistory } from "react-router"
+import { useMutation, gql } from "@apollo/client"
+
+const CREATE_PROJECT_MUTATION = gql`
+  mutation CreateProject($title: String!) {
+    insert_projects_one(object: { title: $title }) {
+      id
+      title
+    }
+  }
+`
 
 const NewProjectPage = () => {
   const [formData, setFormData] = useState({ title: "" })
 
+  const [createProject] = useMutation(CREATE_PROJECT_MUTATION)
+
+  const history = useHistory()
+
   const handleSubmit = event => {
     event.preventDefault()
     console.log("SUBMIT FORM", formData)
+    createProject({ variables: formData }).then(result => {
+      console.log(result)
+      console.log("TAKE ME SOMEWHERe, FUCK FACE")
+      history.push("/")
+    })
   }
 
   return (
