@@ -1,6 +1,5 @@
-import MessageListItem from "../components/message-list-item"
 import React, { useState } from "react"
-import { getMessages } from "../data/messages"
+import { useQuery, gql } from "@apollo/client"
 import {
   IonButtons,
   IonButton,
@@ -21,10 +20,26 @@ import {
   useIonViewWillEnter
 } from "@ionic/react"
 import { addOutline } from "ionicons/icons"
+
+import { getMessages } from "../data/messages"
+import MessageListItem from "../components/message-list-item"
+
 import "./home.css"
+
+const GET_PROJECTS_QUERY = gql`
+  query GetProjects {
+    projects {
+      id
+      title
+    }
+  }
+`
 
 const Home = () => {
   const [messages, setMessages] = useState([])
+
+  const { loading, error, data } = useQuery(GET_PROJECTS_QUERY)
+  const projects = data ? data.projects || [] : []
 
   useIonViewWillEnter(() => {
     const msgs = getMessages()
@@ -60,6 +75,12 @@ const Home = () => {
             <IonTitle>Inbox</IonTitle>
           </IonToolbar>
         </IonHeader>
+
+        <ul>
+          {projects.map((project, idx) => (
+            <li key={idx}>{project.title}</li>
+          ))}
+        </ul>
 
         <IonList>
           <IonItemSliding>
