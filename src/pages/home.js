@@ -1,28 +1,21 @@
-import React, { useState } from "react"
+import React from "react"
 import { useQuery, gql } from "@apollo/client"
 import {
-  IonButtons,
   IonButton,
-  IonIcon,
+  IonButtons,
   IonContent,
   IonHeader,
+  IonIcon,
   IonList,
   IonPage,
   IonRefresher,
   IonRefresherContent,
   IonTitle,
-  IonToolbar,
-  IonItem,
-  IonItemSliding,
-  IonItemOptions,
-  IonItemOption,
-  IonLabel,
-  useIonViewWillEnter
+  IonToolbar
 } from "@ionic/react"
 import { addOutline } from "ionicons/icons"
 
-import { getMessages } from "../data/messages"
-import MessageListItem from "../components/message-list-item"
+import ProjectItem from "../components/project-item"
 
 import "./home.css"
 
@@ -36,15 +29,8 @@ const GET_PROJECTS_QUERY = gql`
 `
 
 const Home = () => {
-  const [messages, setMessages] = useState([])
-
   const { loading, error, data } = useQuery(GET_PROJECTS_QUERY)
   const projects = data ? data.projects || [] : []
-
-  useIonViewWillEnter(() => {
-    const msgs = getMessages()
-    setMessages(msgs)
-  })
 
   const refresh = e => {
     setTimeout(() => {
@@ -54,17 +40,12 @@ const Home = () => {
 
   return (
     <IonPage id="home-page">
-      <IonHeader>
-        <IonToolbar>
-          <IonTitle>Inbox</IonTitle>
-        </IonToolbar>
-      </IonHeader>
       <IonContent fullscreen>
         <IonRefresher slot="fixed" onIonRefresh={refresh}>
           <IonRefresherContent></IonRefresherContent>
         </IonRefresher>
 
-        <IonHeader collapse="condense">
+        <IonHeader>
           <IonToolbar>
             <IonButtons slot="primary">
               <IonButton routerLink="/projects/new">
@@ -76,27 +57,9 @@ const Home = () => {
           </IonToolbar>
         </IonHeader>
 
-        <ul>
-          {projects.map((project, idx) => (
-            <li key={idx}>{project.title}</li>
-          ))}
-        </ul>
-
         <IonList>
-          <IonItemSliding>
-            <IonItem routerLink="/projects/new">
-              <IonLabel>New Message</IonLabel>
-            </IonItem>
-
-            <IonItemOptions side="end">
-              <IonItemOption color="danger" onClick={e => console.log("DELETE ME")}>
-                Delete
-              </IonItemOption>
-            </IonItemOptions>
-          </IonItemSliding>
-
-          {messages.map(m => (
-            <MessageListItem key={m.id} message={m} />
+          {projects.map(project => (
+            <ProjectItem {...project} key={project.id} />
           ))}
         </IonList>
       </IonContent>

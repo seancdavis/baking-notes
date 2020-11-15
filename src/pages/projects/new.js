@@ -9,7 +9,8 @@ import {
   IonToolbar,
   IonInput,
   IonLabel,
-  IonItem
+  IonItem,
+  IonTitle
 } from "@ionic/react"
 
 import { useHistory } from "react-router"
@@ -48,6 +49,7 @@ const NewProjectPage = () => {
           <IonButtons>
             <IonBackButton text="Back" defaultHref="/home"></IonBackButton>
           </IonButtons>
+          <IonTitle>New Project</IonTitle>
         </IonToolbar>
       </IonHeader>
 

@@ -19,7 +19,7 @@
     "react-scripts": "3.4.0"
   },
   "scripts": {
-    "start": "ionic serve",
+    "develop": "ionic serve",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"

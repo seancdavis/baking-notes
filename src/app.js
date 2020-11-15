@@ -7,7 +7,7 @@ import { ApolloClient, ApolloProvider, InMemoryCache, HttpLink } from "@apollo/c
 import { HASURA_ADMIN_SECRET, HASURA_URL } from "./env"
 
 import Home from "./pages/home"
-import ViewMessage from "./pages/view-messages"
+import ProjectPage from "./pages/projects/show"
 import NewProjectPage from "./pages/projects/new"
 
 /* Core CSS required for Ionic components to work properly */
@@ -52,8 +52,8 @@ const App = () => {
         <IonReactRouter>
           <IonRouterOutlet>
             <Route path="/home" component={Home} exact={true} />
+            <Route path="/projects/:id" component={ProjectPage} exact={true} />
             <Route path="/projects/new" component={NewProjectPage} exact={true} />
-            <Route path="/message/:id" component={ViewMessage} exact={true} />
             <Route exact path="/" render={() => <Redirect to="/home" />} />
           </IonRouterOutlet>
         </IonReactRouter>
