@@ -11,18 +11,24 @@ import {
   // IonInput,
   // IonLabel,
   // IonItem,
-  IonTitle,
-  useIonViewWillEnter
+  IonTitle
+  // useIonViewWillEnter
 } from "@ionic/react"
 import { home } from "ionicons/icons"
-
 import { useQuery, gql } from "@apollo/client"
+
+import NoteItem from "../../components/note-item"
 
 const GET_PROJECT_QUERY = gql`
   query GetProject($id: Int!) {
     project: projects_by_pk(id: $id) {
       id
       title
+    }
+
+    notes(where: { project_id: { _eq: $id } }) {
+      id
+      body
     }
   }
 `
@@ -33,6 +39,7 @@ const ProjectPage = ({ match }) => {
   })
 
   const project = data ? data.project : {}
+  const notes = data ? data.notes : []
 
   return (
     <IonPage id="new-project">
@@ -48,7 +55,11 @@ const ProjectPage = ({ match }) => {
         </IonToolbar>
       </IonHeader>
 
-      <IonContent fullscreen>Content goes here ...</IonContent>
+      <IonContent fullscreen>
+        {notes.map(note => (
+          <NoteItem {...note} key={note.id} />
+        ))}
+      </IonContent>
     </IonPage>
   )
 }
