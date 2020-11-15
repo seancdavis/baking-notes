@@ -1,4 +1,4 @@
-import React, { useState } from "react"
+import React from "react"
 import {
   // IonBackButton,
   IonButtons,
@@ -16,26 +16,23 @@ import {
 } from "@ionic/react"
 import { home } from "ionicons/icons"
 
-// import { useHistory } from "react-router"
-// import { useMutation, gql } from "@apollo/client"
+import { useQuery, gql } from "@apollo/client"
 
-// const CREATE_PROJECT_MUTATION = gql`
-//   mutation CreateProject($title: String!) {
-//     insert_projects_one(object: { title: $title }) {
-//       id
-//       title
-//     }
-//   }
-// `
+const GET_PROJECT_QUERY = gql`
+  query GetProject($id: Int!) {
+    project: projects_by_pk(id: $id) {
+      id
+      title
+    }
+  }
+`
 
 const ProjectPage = ({ match }) => {
-  const [project, setProject] = useState({})
-
-  useIonViewWillEnter(() => {
-    // const msg = getMessage(parseInt(match.params.id, 10))
-    // setMessage(msg)
-    setProject({ id: 1, title: "FPO PROJECT" })
+  const { loading, error, data } = useQuery(GET_PROJECT_QUERY, {
+    variables: { id: match.params.id }
   })
+
+  const project = data ? data.project : {}
 
   return (
     <IonPage id="new-project">
